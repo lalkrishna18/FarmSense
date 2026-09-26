@@ -3,43 +3,370 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <meta name="description" content="FarmSense - Smart farming assistance for better crop decisions.">
-
-    <title>FarmSense</title>
-
-    <!-- Bootstrap CSS -->
-    <link
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
-        rel="stylesheet"
-    >
-
-    <link
-    rel="stylesheet"
-    href="{{ url_for('static', filename='css/style.css') }}"
->
+    <title>FarmSense - Smart Farming Decisions Made Simple</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../static/css/style.css">
 </head>
-
 <body>
 
-    <div class="container py-5">
+    <!-- GLOBAL NAVBAR -->
+    <nav class="navbar navbar-expand-lg sticky-top bg-white border-bottom shadow-sm">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center gap-2" href="#home" onclick="navTo('home')">
+                <span class="brand-icon"><i class="bi bi-sprout-fill"></i></span>
+                <span class="fw-bold fs-4 text-success-dark">FarmSense</span>
+            </a>
+            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navMenu">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0 fw-semibold">
+                    <li class="nav-item"><a class="nav-link nav-btn active" id="nav-dashboard" href="#dashboard" onclick="navTo('dashboard')"><i class="bi bi-grid-1x2-fill me-1"></i> Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link nav-btn" id="nav-recommendation" href="#recommendation" onclick="navTo('recommendation')"><i class="bi bi-flower2 me-1"></i> Crop Advisor</a></li>
+                    <li class="nav-item"><a class="nav-link nav-btn" id="nav-market" href="#market" onclick="navTo('market')"><i class="bi bi-graph-up-arrow me-1"></i> Market Prices</a></li>
+                    <li class="nav-item"><a class="nav-link nav-btn" id="nav-alerts" href="#alerts" onclick="navTo('alerts')"><i class="bi bi-bell-fill me-1"></i> Price Alerts</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
-        <h1 class="display-4 fw-bold farmsense-title">FarmSense</h1>
+    <!-- MAIN CONTAINER FOR VIEWS -->
+    <main class="container py-4">
 
-<p class="lead farmsense-subtitle">
-    Smart farming assistance for better crop decisions.
-</p>
+        <!-- 1. LANDING / HERO VIEW (Default when uninitialized) -->
+        <section id="view-home" class="view-section active">
+            <div class="hero-card p-4 p-md-5 mb-4 rounded-4 text-white text-center text-md-start">
+                <div class="row align-items-center">
+                    <div class="col-lg-8">
+                        <span class="badge bg-light text-dark px-3 py-2 mb-3 rounded-pill fw-normal"><i class="bi bi-stars text-warning me-1"></i> Smart Agricultural Decision Support</span>
+                        <h1 class="display-5 fw-bold mb-3">Smart farming decisions, made simple.</h1>
+                        <p class="lead mb-4 opacity-90">Get AI-backed crop recommendations based on your soil and weather, track live market trends, and set target price alerts.</p>
+                        <div class="d-flex flex-wrap gap-3 justify-content-center justify-content-md-start">
+                            <button class="btn btn-light btn-lg px-4 fw-bold text-success-dark" onclick="navTo('recommendation')"><i class="bi bi-search me-2"></i> Get Crop Recommendation</button>
+                            <button class="btn btn-outline-light btn-lg px-4" onclick="navTo('market')"><i class="bi bi-graph-up me-2"></i> Explore Market</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
-        <button class="btn btn-success">
-            Get Started
-        </button>
+            <div class="row g-4 mt-2">
+                <div class="col-md-4">
+                    <div class="card h-100 feature-card border-0 shadow-sm p-3">
+                        <div class="card-body">
+                            <div class="feature-icon bg-light-green mb-3"><i class="bi bi-flower2"></i></div>
+                            <h4 class="card-title fw-bold">Soil & Crop Matching</h4>
+                            <p class="text-muted">Analyze Nitrogen, Potassium, Phosphorus, pH, and climate conditions to pick optimal crops.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100 feature-card border-0 shadow-sm p-3">
+                        <div class="card-body">
+                            <div class="feature-icon bg-light-blue mb-3"><i class="bi bi-graph-up-arrow"></i></div>
+                            <h4 class="card-title fw-bold">Market Intelligence</h4>
+                            <p class="text-muted">Stay updated with transparent market prices, historical trends, and price directions.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100 feature-card border-0 shadow-sm p-3">
+                        <div class="card-body">
+                            <div class="feature-icon bg-light-yellow mb-3"><i class="bi bi-bell"></i></div>
+                            <h4 class="card-title fw-bold">Instant Price Alerts</h4>
+                            <p class="text-muted">Set target prices for your preferred crops and get notified when market prices hit your threshold.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
-    </div>
+        <!-- 2. DASHBOARD VIEW -->
+        <section id="view-dashboard" class="view-section">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h2 class="fw-bold mb-1">Good Day, Farmer! 👋</h2>
+                    <p class="text-muted mb-0">Here is your farm intelligence summary at a glance.</p>
+                </div>
+            </div>
 
-    <!-- Bootstrap JavaScript -->
-    <script
-        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js">
-    </script>
+            <!-- Dashboard Summary Grid -->
+            <div class="row g-3 mb-4">
+                <div class="col-6 col-lg-3">
+                    <div class="card border-0 shadow-sm p-3 bg-white">
+                        <div class="text-muted fs-7 font-uppercase fw-semibold">Top Recommendation</div>
+                        <div class="fs-4 fw-bold text-success-dark mt-1" id="dash-top-crop">Rice</div>
+                        <span class="badge bg-success-subtle text-success w-max mt-2"><i class="bi bi-check-circle-fill me-1"></i> 91% Match</span>
+                    </div>
+                </div>
+                <div class="col-6 col-lg-3">
+                    <div class="card border-0 shadow-sm p-3 bg-white">
+                        <div class="text-muted fs-7 font-uppercase fw-semibold">Rice Market Rate</div>
+                        <div class="fs-4 fw-bold text-dark mt-1">₹2,450 / qtl</div>
+                        <span class="text-success fs-7 mt-2"><i class="bi bi-arrow-up-right me-1"></i> +8.4% this week</span>
+                    </div>
+                </div>
+                <div class="col-6 col-lg-3">
+                    <div class="card border-0 shadow-sm p-3 bg-white">
+                        <div class="text-muted fs-7 font-uppercase fw-semibold">Active Price Alerts</div>
+                        <div class="fs-4 fw-bold text-dark mt-1" id="dash-active-alerts-count">2 Alerts</div>
+                        <span class="text-muted fs-7 mt-2"><i class="bi bi-clock me-1"></i> Monitoring live</span>
+                    </div>
+                </div>
+                <div class="col-6 col-lg-3">
+                    <div class="card border-0 shadow-sm p-3 bg-white">
+                        <div class="text-muted fs-7 font-uppercase fw-semibold">Farm Location</div>
+                        <div class="fs-4 fw-bold text-dark mt-1">Idukki, KL</div>
+                        <span class="text-primary fs-7 mt-2"><i class="bi bi-cloud-sun me-1"></i> 24.5°C, Humid</span>
+                    </div>
+                </div>
+            </div>
 
+            <!-- Quick Action Cards -->
+            <div class="row g-4">
+                <div class="col-lg-8">
+                    <div class="card border-0 shadow-sm p-4">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h4 class="fw-bold mb-0">Market Trend Quick-Look</h4>
+                            <button class="btn btn-sm btn-outline-success" onclick="navTo('market')">View Full Market</button>
+                        </div>
+                        <div class="chart-container" style="position: relative; height: 260px;">
+                            <canvas id="dashboardChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="card border-0 shadow-sm p-4 h-100">
+                        <h4 class="fw-bold mb-3">Active Price Watch</h4>
+                        <div id="dash-alerts-list" class="d-flex flex-column gap-3">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. CROP RECOMMENDATION VIEW -->
+        <section id="view-recommendation" class="view-section">
+            <div class="row g-4">
+                <!-- Inputs Section -->
+                <div class="col-lg-5">
+                    <div class="card border-0 shadow-sm p-4">
+                        <h3 class="fw-bold mb-1"><i class="bi bi-sliders text-success me-2"></i>Farm Conditions</h3>
+                        <p class="text-muted fs-7 mb-4">Enter soil test values and climate numbers to get accurate recommendations.</p>
+
+                        <form id="recommendation-form" onsubmit="handleRecommendationSubmit(event)">
+                            <h6 class="fw-bold text-uppercase fs-7 text-muted border-bottom pb-2 mb-3">1. Soil Nutrients (kg/ha)</h6>
+                            <div class="row g-3 mb-3">
+                                <div class="col-4">
+                                    <label class="form-label fw-bold mb-1 fs-7">Nitrogen (N)</label>
+                                    <input type="number" class="form-control" id="input-n" value="90" min="0" max="200" required>
+                                </div>
+                                <div class="col-4">
+                                    <label class="form-label fw-bold mb-1 fs-7">Phosphorus (P)</label>
+                                    <input type="number" class="form-control" id="input-p" value="42" min="0" max="200" required>
+                                </div>
+                                <div class="col-4">
+                                    <label class="form-label fw-bold mb-1 fs-7">Potassium (K)</label>
+                                    <input type="number" class="form-control" id="input-k" value="43" min="0" max="200" required>
+                                </div>
+                            </div>
+
+                            <h6 class="fw-bold text-uppercase fs-7 text-muted border-bottom pb-2 mb-3 mt-4">2. Climate & Environment</h6>
+                            <div class="row g-3 mb-3">
+                                <div class="col-6">
+                                    <label class="form-label fw-bold mb-1 fs-7">Temperature (°C)</label>
+                                    <input type="number" step="0.1" class="form-control" id="input-temp" value="24.5" required>
+                                </div>
+                                <div class="col-6">
+                                    <label class="form-label fw-bold mb-1 fs-7">Humidity (%)</label>
+                                    <input type="number" class="form-control" id="input-humidity" value="80" min="0" max="100" required>
+                                </div>
+                                <div class="col-6">
+                                    <label class="form-label fw-bold mb-1 fs-7">Rainfall (mm)</label>
+                                    <input type="number" class="form-control" id="input-rainfall" value="200" min="0" required>
+                                </div>
+                                <div class="col-6">
+                                    <label class="form-label fw-bold mb-1 fs-7">Soil pH</label>
+                                    <input type="number" step="0.1" class="form-control" id="input-ph" value="6.5" min="0" max="14" required>
+                                </div>
+                            </div>
+
+                            <div id="form-error-msg" class="alert alert-danger fs-7 d-none mb-3"></div>
+
+                            <button type="submit" class="btn btn-success btn-lg w-100 fw-bold mt-2">
+                                <i class="bi bi-cpu me-2"></i> Get Crop Recommendation
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Results Section -->
+                <div class="col-lg-7">
+                    <!-- LOADING STATE -->
+                    <div id="rec-loading" class="card border-0 shadow-sm p-5 text-center d-none">
+                        <div class="spinner-border text-success my-3 mx-auto" style="width: 3rem; height: 3rem;" role="status"></div>
+                        <h4 class="fw-bold">Analyzing your farm conditions...</h4>
+                        <p class="text-muted">Evaluating soil parameters against agricultural suitability models.</p>
+                    </div>
+
+                    <!-- RESULTS STATE -->
+                    <div id="rec-results">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h3 class="fw-bold mb-0">Recommended Crops</h3>
+                            <span class="badge bg-light text-dark border">Sorted by suitability</span>
+                        </div>
+                        <div id="recommendations-container" class="d-flex flex-column gap-3">
+                            <!-- Dynamically generated crop cards -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. CROP DETAIL MODAL -->
+        <div class="modal fade" id="cropDetailModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-lg">
+                <div class="modal-content border-0 shadow">
+                    <div class="modal-header bg-success text-white">
+                        <h5 class="modal-title fw-bold" id="modalCropName">Rice Details</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body p-4" id="modalCropBody">
+                        <!-- Populated dynamically via JS -->
+                    </div>
+                    <div class="modal-footer bg-light">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-success fw-bold" id="modalSetAlertBtn"><i class="bi bi-bell-fill me-1"></i> Track Market Price</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5. MARKET INTELLIGENCE VIEW -->
+        <section id="view-market" class="view-section">
+            <div class="card border-0 shadow-sm p-4 mb-4">
+                <div class="row align-items-center g-3">
+                    <div class="col-md-6">
+                        <h2 class="fw-bold mb-1">Market Intelligence</h2>
+                        <p class="text-muted mb-0">Live commodity prices and historical trends across regional hubs.</p>
+                    </div>
+                    <div class="col-md-6 d-flex justify-content-md-end gap-3">
+                        <div class="w-100 max-w-250">
+                            <label class="form-label fs-7 fw-bold text-muted mb-1">Select Commodity</label>
+                            <select id="market-crop-select" class="form-select fw-bold" onchange="updateMarketView()">
+                                <option value="Rice">Rice</option>
+                                <option value="Maize">Maize</option>
+                                <option value="Wheat">Wheat</option>
+                                <option value="Cotton">Cotton</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card border-0 shadow-sm p-4 text-center h-100">
+                        <div class="text-muted fw-semibold mb-1">Current Price</div>
+                        <div class="display-6 fw-bold text-success-dark mb-2" id="market-current-price">₹2,450</div>
+                        <div class="text-muted fs-7 mb-3">per quintal (100 kg)</div>
+                        <div id="market-trend-badge" class="badge bg-success-subtle text-success fs-6 py-2 px-3 mx-auto w-max">
+                            <i class="bi bi-arrow-up-right me-1"></i> Price Rising (+8.4%)
+                        </div>
+                        <hr class="my-4">
+                        <div class="text-start fs-7 text-muted">
+                            <div class="d-flex justify-content-between mb-2"><span>Market Location:</span> <strong class="text-dark">Kochi Hub</strong></div>
+                            <div class="d-flex justify-content-between mb-2"><span>Last Updated:</span> <strong class="text-dark">Today, 09:30 AM</strong></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="card border-0 shadow-sm p-4">
+                        <h4 class="fw-bold mb-3">Price Movement (Last 6 Months)</h4>
+                        <div class="chart-container" style="position: relative; height: 300px;">
+                            <canvas id="marketDetailChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. PRICE ALERTS VIEW -->
+        <section id="view-alerts" class="view-section">
+            <div class="row g-4">
+                <div class="col-lg-5">
+                    <div class="card border-0 shadow-sm p-4">
+                        <h3 class="fw-bold mb-1"><i class="bi bi-bell text-warning me-2"></i>Set Price Target</h3>
+                        <p class="text-muted fs-7 mb-4">FarmSense will track the commodity and trigger alerts when reached.</p>
+
+                        <form id="alert-form" onsubmit="handleAlertSubmit(event)">
+                            <div class="mb-3">
+                                <label class="form-label fw-bold fs-7">Select Commodity</label>
+                                <select id="alert-crop-select" class="form-select" onchange="syncAlertFormPrice()">
+                                    <option value="Rice">Rice</option>
+                                    <option value="Maize">Maize</option>
+                                    <option value="Wheat">Wheat</option>
+                                    <option value="Cotton">Cotton</option>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label fw-bold fs-7">Current Market Price</label>
+                                <input type="text" id="alert-current-price-display" class="form-control bg-light" value="₹2,450 / quintal" readonly>
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="form-label fw-bold fs-7">Your Target Price (₹ / quintal)</label>
+                                <input type="number" id="alert-target-price" class="form-control form-control-lg fw-bold" placeholder="e.g. 2800" required>
+                            </div>
+
+                            <button type="submit" class="btn btn-warning text-dark btn-lg w-100 fw-bold">
+                                <i class="bi bi-plus-circle me-1"></i> Create Price Alert
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="col-lg-7">
+                    <div class="card border-0 shadow-sm p-4">
+                        <h3 class="fw-bold mb-3">Active Alerts</h3>
+                        <div id="alerts-list-container" class="d-flex flex-column gap-3">
+                            <!-- Populated dynamically via JS -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- GLOBAL FOOTER -->
+    <footer class="footer bg-white border-top py-4 mt-5">
+        <div class="container text-center text-md-start">
+            <div class="row align-items-center">
+                <div class="col-md-6 mb-2 mb-md-0">
+                    <div class="d-flex align-items-center gap-2 justify-content-center justify-content-md-start">
+                        <i class="bi bi-sprout-fill text-success fs-5"></i>
+                        <span class="fw-bold text-dark">FarmSense</span>
+                    </div>
+                    <p class="text-muted fs-7 mb-0 mt-1">Smart farming decisions, made simple. Built for hackathon demonstration.</p>
+                </div>
+                <div class="col-md-6 text-center text-md-end fs-7 text-muted">
+                    <span>&copy; 2026 FarmSense Project. All rights reserved.</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Custom Application JS -->
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
 </html>
