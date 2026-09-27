@@ -8,8 +8,10 @@ from ml.predict import recommend_crops
 from backend.price_database import (
     initialize_database,
     get_all_prices,
+    get_price,
     update_price
 )
+
 
 app = Flask(
     __name__,
@@ -85,6 +87,8 @@ def recommend():
             "error": "Prediction failed",
             "details": str(e)
         }), 500
+
+
 # ============================================================
 # MARKET PRICE API
 # ============================================================
@@ -224,8 +228,10 @@ MARKET_DATA = {
     }
 }
 
+
 # Initialize the officer price database using the existing market prices.
 initialize_database(MARKET_DATA)
+
 
 @app.route("/api/market/<crop>")
 def market(crop):
@@ -237,10 +243,24 @@ def market(crop):
             "error": f"Market data not found for {crop}"
         }), 404
 
+    # Get the latest price managed by the agriculture officer.
+    stored_price = get_price(crop)
+
+    if stored_price is None:
+        return jsonify({
+            "error": f"Price not found for {crop}"
+        }), 404
+
     return jsonify({
         "crop": crop,
-        **data
+        "price": stored_price["base_price"],
+        "updated_at": stored_price["updated_at"],
+        "trend": data["trend"],
+        "direction": data["direction"],
+        "history": data["history"]
     })
+
+
 @app.route("/api/officer/prices", methods=["GET"])
 def officer_prices():
     return jsonify({
@@ -281,6 +301,7 @@ def update_officer_price(crop):
         "crop": crop,
         "base_price": base_price
     })
+
 
 if __name__ == "__main__":
     app.run(debug=True)
