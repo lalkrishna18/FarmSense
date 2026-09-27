@@ -159,6 +159,10 @@ function handleHashNavigation() {
         targetNav.classList.add("active");
     }
 
+    if (hash === "officer") {
+    loadOfficerPrices();
+}
+
     window.scrollTo({
         top: 0,
         behavior: "smooth"
@@ -1241,5 +1245,153 @@ function initCharts() {
 
                 }
             );
+    }
+}
+
+// ============================================================
+// AGRICULTURE OFFICER - BASE PRICE MANAGEMENT
+// ============================================================
+
+async function loadOfficerPrices() {
+    const tableBody = document.getElementById("officer-price-table");
+
+    if (!tableBody) {
+        console.error("Officer price table not found.");
+        return;
+    }
+
+    tableBody.innerHTML = `
+        <tr>
+            <td colspan="4" class="text-center text-muted py-4">
+                <div
+                    class="spinner-border spinner-border-sm text-success me-2"
+                    role="status">
+                </div>
+                Loading crop prices...
+            </td>
+        </tr>
+    `;
+
+    try {
+        const response = await fetch("/api/officer/prices");
+
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        if (!data.prices || !Array.isArray(data.prices)) {
+            throw new Error("Invalid price data received from server.");
+        }
+
+        tableBody.innerHTML = "";
+
+        data.prices.forEach(price => {
+            const row = document.createElement("tr");
+
+            row.innerHTML = `
+                <td class="fw-semibold">
+                    ${price.crop}
+                </td>
+
+                <td>
+                    ₹${Number(price.base_price).toLocaleString("en-IN")}
+                </td>
+
+                <td>
+                    <input
+                        type="number"
+                        class="form-control form-control-sm officer-price-input"
+                        id="price-${price.crop}"
+                        value="${price.base_price}"
+                        min="0"
+                        step="0.01"
+                    >
+                </td>
+
+                <td>
+                    <button
+                        type="button"
+                        class="btn btn-sm btn-success"
+                        onclick="updateOfficerPrice('${price.crop}')">
+                        <i class="bi bi-check2 me-1"></i>
+                        Update
+                    </button>
+                </td>
+            `;
+
+            tableBody.appendChild(row);
+        });
+
+    } catch (error) {
+        console.error("Failed to load officer prices:", error);
+
+        tableBody.innerHTML = `
+            <tr>
+                <td colspan="4" class="text-center text-danger py-4">
+                    <i class="bi bi-exclamation-triangle me-2"></i>
+                    Failed to load crop prices.
+                    <br>
+                    <small class="text-muted">
+                        Please check that the FarmSense server is running.
+                    </small>
+                </td>
+            </tr>
+        `;
+    }
+}
+
+
+// ============================================================
+// UPDATE OFFICER BASE PRICE
+// ============================================================
+
+async function updateOfficerPrice(crop) {
+    const input = document.getElementById(`price-${crop}`);
+
+    if (!input) {
+        console.error(`Price input not found for ${crop}`);
+        return;
+    }
+
+    const basePrice = Number(input.value);
+
+    if (!Number.isFinite(basePrice) || basePrice < 0) {
+        alert("Please enter a valid base price.");
+        return;
+    }
+
+    try {
+        const response = await fetch(
+            `/api/officer/prices/${encodeURIComponent(crop)}`,
+            {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    base_price: basePrice
+                })
+            }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.error || `HTTP ${response.status}`);
+        }
+
+        alert(`${crop} base price updated successfully.`);
+
+        // Reload the table so the current price is displayed.
+        await loadOfficerPrices();
+
+    } catch (error) {
+        console.error(`Failed to update ${crop}:`, error);
+
+        alert(
+            `Failed to update ${crop} price.\n\n${error.message}`
+        );
     }
 }

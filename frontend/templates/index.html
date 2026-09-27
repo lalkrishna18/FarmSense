@@ -32,12 +32,60 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navMenu">
-                <ul class="navbar-nav ms-auto mb-2 mb-lg-0 fw-semibold">
-                    <li class="nav-item"><a class="nav-link nav-btn active" id="nav-dashboard" href="#dashboard" onclick="navTo('dashboard')"><i class="bi bi-grid-1x2-fill me-1"></i> Dashboard</a></li>
-                    <li class="nav-item"><a class="nav-link nav-btn" id="nav-recommendation" href="#recommendation" onclick="navTo('recommendation')"><i class="bi bi-flower2 me-1"></i> Crop Advisor</a></li>
-                    <li class="nav-item"><a class="nav-link nav-btn" id="nav-market" href="#market" onclick="navTo('market')"><i class="bi bi-graph-up-arrow me-1"></i> Market Prices</a></li>
-                    <li class="nav-item"><a class="nav-link nav-btn" id="nav-alerts" href="#alerts" onclick="navTo('alerts')"><i class="bi bi-bell-fill me-1"></i> Price Alerts</a></li>
-                </ul>
+             <ul class="navbar-nav ms-auto mb-2 mb-lg-0 fw-semibold">
+
+    <li class="nav-item">
+        <a class="nav-link nav-btn active"
+           id="nav-dashboard"
+           href="#dashboard"
+           onclick="navTo('dashboard')">
+            <i class="bi bi-grid-1x2-fill me-1"></i>
+            Dashboard
+        </a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link nav-btn"
+           id="nav-recommendation"
+           href="#recommendation"
+           onclick="navTo('recommendation')">
+            <i class="bi bi-flower2 me-1"></i>
+            Crop Advisor
+        </a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link nav-btn"
+           id="nav-market"
+           href="#market"
+           onclick="navTo('market')">
+            <i class="bi bi-graph-up-arrow me-1"></i>
+            Market Prices
+        </a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link nav-btn"
+           id="nav-alerts"
+           href="#alerts"
+           onclick="navTo('alerts')">
+            <i class="bi bi-bell-fill me-1"></i>
+            Price Alerts
+        </a>
+    </li>
+
+    <!-- AGRICULTURE OFFICER -->
+    <li class="nav-item">
+        <a class="nav-link nav-btn"
+           id="nav-officer"
+           href="#officer"
+           onclick="navTo('officer')">
+            <i class="bi bi-shield-check me-1"></i>
+            Officer
+        </a>
+    </li>
+
+</ul>
             </div>
         </div>
     </nav>
@@ -91,6 +139,78 @@
                 </div>
             </div>
         </section>
+
+        </section>
+
+
+        <!-- 2. AGRICULTURE OFFICER PRICE MANAGEMENT -->
+        <section id="view-officer" class="view-section">
+
+            <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
+
+                <div>
+                    <h2 class="fw-bold mb-1">
+                        Agriculture Officer
+                    </h2>
+
+                    <p class="text-muted mb-0">
+                        Manage the base prices used across FarmSense market intelligence.
+                    </p>
+                </div>
+
+                <span class="badge bg-light text-success border px-3 py-2">
+                    <i class="bi bi-shield-check me-1"></i>
+                    Officer Price Management
+                </span>
+
+            </div>
+
+            <div class="card border-0 shadow-sm rounded-4">
+
+                <div class="card-body p-4">
+
+                    <div class="table-responsive">
+
+                        <table class="table align-middle mb-0">
+
+                            <thead>
+                                <tr>
+                                    <th>Crop</th>
+                                    <th>Current Base Price</th>
+                                    <th>New Base Price (₹)</th>
+                                    <th class="text-end">Action</th>
+                                </tr>
+                            </thead>
+
+                            <tbody id="officer-price-table">
+
+                                <tr>
+                                    <td colspan="4" class="text-center text-muted py-4">
+
+                                        <div
+                                            class="spinner-border spinner-border-sm text-success me-2"
+                                            role="status">
+                                        </div>
+
+                                        Loading crop prices...
+
+                                    </td>
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- YOUR EXISTING NEXT SECTION STARTS HERE -->
 
         <!-- 2. DASHBOARD VIEW -->
         <section id="view-dashboard" class="view-section">

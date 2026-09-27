@@ -5,6 +5,11 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from flask import Flask, render_template, request, jsonify
 from ml.predict import recommend_crops
+from backend.price_database import (
+    initialize_database,
+    get_all_prices,
+    update_price
+)
 
 app = Flask(
     __name__,
@@ -219,6 +224,8 @@ MARKET_DATA = {
     }
 }
 
+# Initialize the officer price database using the existing market prices.
+initialize_database(MARKET_DATA)
 
 @app.route("/api/market/<crop>")
 def market(crop):
@@ -233,6 +240,46 @@ def market(crop):
     return jsonify({
         "crop": crop,
         **data
+    })
+@app.route("/api/officer/prices", methods=["GET"])
+def officer_prices():
+    return jsonify({
+        "prices": get_all_prices()
+    })
+
+
+@app.route("/api/officer/prices/<crop>", methods=["PUT"])
+def update_officer_price(crop):
+    data = request.get_json(silent=True)
+
+    if not data or "base_price" not in data:
+        return jsonify({
+            "error": "base_price is required"
+        }), 400
+
+    try:
+        base_price = float(data["base_price"])
+    except (TypeError, ValueError):
+        return jsonify({
+            "error": "base_price must be a valid number"
+        }), 400
+
+    if base_price < 0:
+        return jsonify({
+            "error": "base_price cannot be negative"
+        }), 400
+
+    updated = update_price(crop, base_price)
+
+    if not updated:
+        return jsonify({
+            "error": f"Crop not found: {crop}"
+        }), 404
+
+    return jsonify({
+        "message": "Base price updated successfully",
+        "crop": crop,
+        "base_price": base_price
     })
 
 if __name__ == "__main__":
