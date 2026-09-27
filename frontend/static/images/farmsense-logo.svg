@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 120" width="100%" height="100%" aria-label="FarmSense Logo">
+	<defs>
+		<style>
+			.bg-dark { fill: #1B4332; }
+			.bg-medium { fill: #2D6A4F; }
+			.bg-fresh { fill: #52B788; }
+			.bg-accent { fill: #F4C95D; }
+
+			.text-farm {
+				font-family: 'Inter', 'Montserrat', 'Helvetica Neue', sans-serif;
+				font-weight: 700;
+				fill: #1B4332;
+				font-size: 42px;
+				letter-spacing: -0.5px;
+			}
+
+			.text-sense {
+				font-family: 'Inter', 'Montserrat', 'Helvetica Neue', sans-serif;
+				font-weight: 500;
+				fill: #2D6A4F;
+				font-size: 42px;
+				letter-spacing: -0.5px;
+			}
+		</style>
+	</defs>
+
+	<!-- ICON GROUP -->
+	<g transform="translate(10, 10)">
+
+		<!-- Base Farmland Arc Shapes -->
+		<path class="bg-dark"
+			d="M 15 75 C 25 92, 45 98, 60 98 C 45 98, 30 88, 22 75 Z" />
+
+		<path class="bg-medium"
+			d="M 10 65 C 25 82, 55 92, 75 80 C 58 88, 30 80, 18 65 Z" />
+
+		<!-- Left Leaf -->
+		<path class="bg-medium"
+			d="M 45 50 C 30 45, 20 30, 25 15 C 38 20, 48 32, 45 50 Z" />
+
+		<!-- Right Leaf -->
+		<path class="bg-dark"
+			d="M 50 50 C 50 25, 75 10, 90 12 C 92 32, 75 52, 50 50 Z" />
+
+		<!-- Central Stem -->
+		<path
+			d="M 47 85 C 47 60, 48 45, 48 35"
+			stroke="#1B4332"
+			stroke-width="4"
+			stroke-linecap="round"
+			fill="none" />
+
+		<!-- AI Data Vein -->
+		<path
+			d="M 55 38 L 68 28 M 68 28 L 78 28"
+			stroke="#52B788"
+			stroke-width="2.5"
+			stroke-linecap="round"
+			stroke-linejoin="round"
+			fill="none" />
+
+		<circle cx="78" cy="28" r="3" class="bg-accent" />
+		<circle cx="68" cy="28" r="2" class="bg-fresh" />
+
+		<!-- Secondary AI Node -->
+		<path
+			d="M 38 33 L 32 26"
+			stroke="#52B788"
+			stroke-width="2"
+			stroke-linecap="round"
+			fill="none" />
+
+		<circle cx="32" cy="26" r="2.5" class="bg-fresh" />
+
+	</g>
+
+	<!-- WORDMARK -->
+	<g transform="translate(125, 68)">
+		<text class="text-farm" x="0" y="0">
+			Farm<tspan class="text-sense">Sense</tspan>
+		</text>
+	</g>
+</svg>

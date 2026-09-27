@@ -751,52 +751,110 @@ function openCropModal(cropName) {
 // MARKET VIEW
 // ============================================================
 
-function updateMarketView() {
+async function updateMarketView() {
 
-    const selected =
-        document.getElementById(
-            "market-crop-select"
-        ).value;
+    const select = document.getElementById("market-crop-select");
 
-
-    const data =
-        mockMarketData[selected];
-
-
-    if (!data) {
+    if (!select) {
+        console.error("Market crop select not found");
         return;
     }
 
+    const selectedCrop = select.value;
 
-    document.getElementById(
-        "market-current-price"
-    ).innerText =
-        `₹${data.price.toLocaleString()}`;
+    console.log("Selected crop:", selectedCrop);
 
+    try {
 
-    const badge =
-        document.getElementById(
-            "market-trend-badge"
+        const response = await fetch(
+            `/api/market/${encodeURIComponent(selectedCrop)}`
         );
 
+        if (!response.ok) {
+            throw new Error(
+                `Market API returned ${response.status}`
+            );
+        }
 
-    badge.innerHTML = `
-        <i class="bi bi-arrow-${
-            data.direction === "up"
-                ? "up-right"
-                : "down-right"
-        } me-1"></i>
-        ${data.trend}
-    `;
+        const data = await response.json();
+
+        console.log("Market data received:", data);
+
+        // -----------------------------
+        // UPDATE CURRENT PRICE
+        // -----------------------------
+
+        const priceElement =
+            document.getElementById("market-current-price");
+
+        if (priceElement) {
+            priceElement.innerText =
+                `₹${Number(data.price).toLocaleString("en-IN")}`;
+        }
 
 
-    if (marketDetailChart) {
+        // -----------------------------
+        // UPDATE TREND
+        // -----------------------------
 
-        marketDetailChart.data.datasets[0].data =
-            data.history;
+        const badge =
+            document.getElementById("market-trend-badge");
 
-        marketDetailChart.update();
+        if (badge) {
 
+            const direction =
+                data.direction === "down"
+                    ? "down-right"
+                    : "up-right";
+
+            badge.innerHTML = `
+                <i class="bi bi-arrow-${direction} me-1"></i>
+                Price ${
+                    data.direction === "down"
+                        ? "Falling"
+                        : "Rising"
+                }
+                (${data.trend})
+            `;
+        }
+
+
+        // -----------------------------
+        // UPDATE GRAPH
+        // -----------------------------
+
+        if (
+            marketDetailChart &&
+            Array.isArray(data.history)
+        ) {
+
+            marketDetailChart.data.datasets[0].data =
+                data.history;
+
+            marketDetailChart.data.datasets[0].label =
+                `${data.crop} Price`;
+
+            marketDetailChart.update();
+
+            console.log(
+                "Graph updated for:",
+                data.crop
+            );
+        }
+        else {
+
+            console.error(
+                "Chart not ready or history missing"
+            );
+        }
+
+    }
+    catch (error) {
+
+        console.error(
+            "Failed to load market data:",
+            error
+        );
     }
 }
 

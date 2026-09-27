@@ -16,10 +16,18 @@
     <!-- GLOBAL NAVBAR -->
     <nav class="navbar navbar-expand-lg sticky-top bg-white border-bottom shadow-sm">
         <div class="container">
-            <a class="navbar-brand d-flex align-items-center gap-2" href="#home" onclick="navTo('home')">
-                <span class="brand-icon"><i class="bi bi-sprout-fill"></i></span>
-                <span class="fw-bold fs-4 text-success-dark">FarmSense</span>
-            </a>
+  <a class="navbar-brand d-flex align-items-center"
+   href="#home"
+   onclick="navTo('home'); return false;"
+   title="FarmSense Home">
+
+    <img
+        src="{{ url_for('static', filename='images/farmsense-logo.svg') }}"
+        alt="FarmSense"
+        class="farmsense-logo"
+    >
+
+</a>
             <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -258,11 +266,29 @@
                         <div class="w-100 max-w-250">
                             <label class="form-label fs-7 fw-bold text-muted mb-1">Select Commodity</label>
                             <select id="market-crop-select" class="form-select fw-bold" onchange="updateMarketView()">
-                                <option value="Rice">Rice</option>
-                                <option value="Maize">Maize</option>
-                                <option value="Wheat">Wheat</option>
-                                <option value="Cotton">Cotton</option>
-                            </select>
+    <option value="Rice">Rice</option>
+    <option value="Maize">Maize</option>
+    <option value="Chickpea">Chickpea</option>
+    <option value="Kidneybeans">Kidneybeans</option>
+    <option value="Pigeonpeas">Pigeonpeas</option>
+    <option value="Mothbeans">Mothbeans</option>
+    <option value="Mungbean">Mungbean</option>
+    <option value="Blackgram">Blackgram</option>
+    <option value="Lentil">Lentil</option>
+    <option value="Pomegranate">Pomegranate</option>
+    <option value="Banana">Banana</option>
+    <option value="Mango">Mango</option>
+    <option value="Grapes">Grapes</option>
+    <option value="Watermelon">Watermelon</option>
+    <option value="Muskmelon">Muskmelon</option>
+    <option value="Apple">Apple</option>
+    <option value="Orange">Orange</option>
+    <option value="Papaya">Papaya</option>
+    <option value="Coconut">Coconut</option>
+    <option value="Cotton">Cotton</option>
+    <option value="Jute">Jute</option>
+    <option value="Coffee">Coffee</option>
+</select>
                         </div>
                     </div>
                 </div>
@@ -345,22 +371,28 @@
     </main>
 
     <!-- GLOBAL FOOTER -->
-    <footer class="footer bg-white border-top py-4 mt-5">
-        <div class="container text-center text-md-start">
-            <div class="row align-items-center">
-                <div class="col-md-6 mb-2 mb-md-0">
-                    <div class="d-flex align-items-center gap-2 justify-content-center justify-content-md-start">
-                        <i class="bi bi-sprout-fill text-success fs-5"></i>
-                        <span class="fw-bold text-dark">FarmSense</span>
-                    </div>
-                    <p class="text-muted fs-7 mb-0 mt-1">Smart farming decisions, made simple. Built for hackathon demonstration.</p>
+  <footer class="footer bg-white border-top py-4 mt-5">
+    <div class="container text-center text-md-start">
+        <div class="row align-items-center">
+
+            <div class="col-md-6 mb-2 mb-md-0">
+                <div class="d-flex align-items-center gap-2 justify-content-center justify-content-md-start">
+                    <i class="bi bi-sprout-fill text-success fs-5"></i>
+                    <span class="fw-bold text-dark">FarmSense</span>
                 </div>
-                <div class="col-md-6 text-center text-md-end fs-7 text-muted">
-                    <span>&copy; 2026 FarmSense Project. All rights reserved.</span>
-                </div>
+
+                <p class="text-muted fs-7 mb-0 mt-1">
+                    Smarter decisions. Better farming.
+                </p>
             </div>
+
+            <div class="col-md-6 text-center text-md-end fs-7 text-muted">
+                <span>&copy; 2026 FarmSense. All rights reserved.</span>
+            </div>
+
         </div>
-    </footer>
+    </div>
+</footer>
 
     <!-- Bootstrap 5 JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
