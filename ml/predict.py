@@ -4,6 +4,7 @@ import pandas as pd
 
 model = joblib.load("ml/model.pkl")
 
+
 FEATURES = [
     "N",
     "P",
@@ -13,6 +14,7 @@ FEATURES = [
     "ph",
     "rainfall"
 ]
+
 
 FEATURE_NAMES = {
     "N": "nitrogen",
@@ -32,6 +34,34 @@ def load_crop_profiles():
 
 
 CROP_PROFILES = load_crop_profiles()
+
+
+TRAINING_RANGES = {
+    "N": (0, 140),
+    "P": (5, 145),
+    "K": (5, 205),
+    "temperature": (8.825675, 43.675493),
+    "humidity": (14.258040, 99.981876),
+    "ph": (3.504752, 9.935091),
+    "rainfall": (20.211267, 298.560117)
+}
+
+
+def validate_inputs(input_values):
+    errors = []
+
+    for feature in FEATURES:
+        value = input_values[feature]
+        minimum, maximum = TRAINING_RANGES[feature]
+
+        if value < minimum or value > maximum:
+            errors.append(
+    f"{FEATURE_NAMES[feature].capitalize()} "
+    f"must be between {minimum:.4f} and {maximum:.4f} "
+    f"based on the training-data range."
+)
+
+    return errors
 
 
 def get_reasons(input_values, crop):
@@ -90,6 +120,14 @@ def recommend_crops(
         "ph": ph,
         "rainfall": rainfall
     }
+
+    errors = validate_inputs(input_values)
+
+    if errors:
+        return {
+            "recommendations": [],
+            "errors": errors
+        }
 
     values = pd.DataFrame(
         [[N, P, K, temperature, humidity, ph, rainfall]],
