@@ -226,17 +226,39 @@
                 <div class="col-6 col-lg-3">
                     <div class="card border-0 shadow-sm p-3 bg-white">
                         <div class="text-muted fs-7 font-uppercase fw-semibold">Top Recommendation</div>
-                        <div class="fs-4 fw-bold text-success-dark mt-1" id="dash-top-crop">Rice</div>
+                       <div class="fs-4 fw-bold text-success-dark mt-1" id="dash-top-crop">
+    Loading...
+</div>
                         <span class="badge bg-success-subtle text-success w-max mt-2"><i class="bi bi-check-circle-fill me-1"></i> 91% Match</span>
                     </div>
                 </div>
-                <div class="col-6 col-lg-3">
-                    <div class="card border-0 shadow-sm p-3 bg-white">
-                        <div class="text-muted fs-7 font-uppercase fw-semibold">Rice Market Rate</div>
-                        <div class="fs-4 fw-bold text-dark mt-1">₹2,450 / qtl</div>
-                        <span class="text-success fs-7 mt-2"><i class="bi bi-arrow-up-right me-1"></i> +8.4% this week</span>
-                    </div>
-                </div>
+    <div class="col-6 col-lg-3">
+    <div class="card border-0 shadow-sm p-3 bg-white">
+
+        <div
+            class="text-muted fs-7 font-uppercase fw-semibold"
+            id="dash-market-label"
+        >
+            Rice Market Rate
+        </div>
+
+        <div
+            class="fs-4 fw-bold text-dark mt-1"
+            id="dash-market-price"
+        >
+            ₹2,450 / qtl
+        </div>
+
+        <span
+            class="text-success fs-7 mt-2"
+            id="dash-market-trend"
+        >
+            <i class="bi bi-arrow-up-right me-1"></i>
+            +8.4% this week
+        </span>
+
+    </div>
+</div>
                 <div class="col-6 col-lg-3">
                     <div class="card border-0 shadow-sm p-3 bg-white">
                         <div class="text-muted fs-7 font-uppercase fw-semibold">Active Price Alerts</div>
@@ -246,9 +268,18 @@
                 </div>
                 <div class="col-6 col-lg-3">
                     <div class="card border-0 shadow-sm p-3 bg-white">
-                        <div class="text-muted fs-7 font-uppercase fw-semibold">Farm Location</div>
-                        <div class="fs-4 fw-bold text-dark mt-1">Idukki, KL</div>
-                        <span class="text-primary fs-7 mt-2"><i class="bi bi-cloud-sun me-1"></i> 24.5°C, Humid</span>
+                  <div class="text-muted fs-7 font-uppercase fw-semibold" id="dash-market-label">
+    Market Rate
+</div>
+
+<div class="fs-4 fw-bold text-dark mt-1" id="dash-market-price">
+    Loading...
+</div>
+
+<span class="text-success fs-7 mt-2" id="dash-market-trend">
+    <i class="bi bi-arrow-up-right me-1"></i>
+    Loading...
+</span>
                     </div>
                 </div>
             </div>
@@ -453,10 +484,28 @@
                             <div class="mb-3">
                                 <label class="form-label fw-bold fs-7">Select Commodity</label>
                                 <select id="alert-crop-select" class="form-select" onchange="syncAlertFormPrice()">
-                                    <option value="Rice">Rice</option>
-                                    <option value="Maize">Maize</option>
-                                    <option value="Wheat">Wheat</option>
-                                    <option value="Cotton">Cotton</option>
+                                    <option value="Apple">Apple</option>
+<option value="Banana">Banana</option>
+<option value="Blackgram">Blackgram</option>
+<option value="Chickpea">Chickpea</option>
+<option value="Coconut">Coconut</option>
+<option value="Coffee">Coffee</option>
+<option value="Cotton">Cotton</option>
+<option value="Grapes">Grapes</option>
+<option value="Jute">Jute</option>
+<option value="Kidney Beans">Kidney Beans</option>
+<option value="Lentil">Lentil</option>
+<option value="Maize">Maize</option>
+<option value="Mango">Mango</option>
+<option value="Moth Beans">Moth Beans</option>
+<option value="Mung Bean">Mung Bean</option>
+<option value="Muskmelon">Muskmelon</option>
+<option value="Orange">Orange</option>
+<option value="Papaya">Papaya</option>
+<option value="Pigeon Peas">Pigeon Peas</option>
+<option value="Pomegranate">Pomegranate</option>
+<option value="Rice">Rice</option>
+<option value="Watermelon">Watermelon</option>
                                 </select>
                             </div>
 

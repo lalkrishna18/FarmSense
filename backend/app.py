@@ -230,21 +230,27 @@ initialize_database(MARKET_DATA)
 @app.route("/api/market/<crop>")
 def market(crop):
 
-    data = MARKET_DATA.get(crop)
+    # Match crop names case-insensitively.
+    # ML may return "rice", while market data uses "Rice".
+    matched_crop = next(
+        (
+            name
+            for name in MARKET_DATA
+            if name.lower() == crop.lower()
+        ),
+        None
+    )
 
-    if data is None:
+    if matched_crop is None:
         return jsonify({
             "error": f"Market data not found for {crop}"
         }), 404
 
+    data = MARKET_DATA[matched_crop]
+
     return jsonify({
-        "crop": crop,
+        "crop": matched_crop,
         **data
-    })
-@app.route("/api/officer/prices", methods=["GET"])
-def officer_prices():
-    return jsonify({
-        "prices": get_all_prices()
     })
 
 

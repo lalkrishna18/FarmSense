@@ -608,24 +608,132 @@ function getMatchType(score) {
 // UPDATE DASHBOARD TOP CROP
 // ============================================================
 
-function updateDashboardTopCrop(recommendations) {
+async function updateDashboardTopCrop(recommendations) {
 
-    const element =
-        document.getElementById(
-            "dash-top-crop"
+    const cropElement =
+        document.getElementById("dash-top-crop");
+
+    const marketLabel =
+        document.getElementById("dash-market-label");
+
+    const marketPrice =
+        document.getElementById("dash-market-price");
+
+    const marketTrend =
+        document.getElementById("dash-market-trend");
+
+
+    // Make sure we have a recommendation
+    if (
+        !recommendations ||
+        recommendations.length === 0
+    ) {
+        return;
+    }
+
+
+    // ============================================================
+    // GET TOP RECOMMENDED CROP
+    // ============================================================
+
+    const recommendedCrop =
+        recommendations[0].crop;
+
+
+    // Update dashboard recommendation
+    if (cropElement) {
+        cropElement.innerText =
+            recommendedCrop;
+    }
+
+
+    // ============================================================
+    // GET MARKET DATA FOR RECOMMENDED CROP
+    // ============================================================
+
+    try {
+
+        const response =
+            await fetch(
+                `/api/market/${encodeURIComponent(recommendedCrop)}`
+            );
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                "Market data unavailable"
+            );
+        }
+
+
+        const marketData =
+            await response.json();
+
+
+        // ========================================================
+        // UPDATE MARKET CARD
+        // ========================================================
+
+        if (marketLabel) {
+
+            marketLabel.innerText =
+                `${recommendedCrop} Market Rate`;
+        }
+
+
+        if (marketPrice) {
+
+            marketPrice.innerText =
+                `₹${Number(
+                    marketData.price
+                ).toLocaleString("en-IN")} / qtl`;
+        }
+
+
+        if (marketTrend) {
+
+            const arrow =
+                marketData.direction === "down"
+                    ? "arrow-down-right"
+                    : "arrow-up-right";
+
+
+            marketTrend.innerHTML = `
+                <i class="bi bi-${arrow} me-1"></i>
+                ${marketData.trend} this week
+            `;
+        }
+
+
+    } catch (error) {
+
+        console.error(
+            "Dashboard market update failed:",
+            error
         );
 
-    if (
-        element &&
-        recommendations &&
-        recommendations.length > 0
-    ) {
 
-        element.innerText =
-            recommendations[0].crop;
+        if (marketLabel) {
+
+            marketLabel.innerText =
+                `${recommendedCrop} Market Rate`;
+        }
+
+
+        if (marketPrice) {
+
+            marketPrice.innerText =
+                "Market data unavailable";
+        }
+
+
+        if (marketTrend) {
+
+            marketTrend.innerHTML = "";
+        }
     }
 }
-
 
 // ============================================================
 // CROP DETAILS MODAL
@@ -1393,5 +1501,71 @@ async function updateOfficerPrice(crop) {
         alert(
             `Failed to update ${crop} price.\n\n${error.message}`
         );
+    }
+}
+
+async function updateDashboardCrop(crop, score) {
+    const cropElement = document.getElementById("dash-top-crop");
+    const marketLabel = document.getElementById("dash-market-label");
+    const marketPrice = document.getElementById("dash-market-price");
+    const marketTrend = document.getElementById("dash-market-trend");
+
+    if (!cropElement) return;
+
+    // Update recommended crop
+    cropElement.textContent = crop;
+
+    // Update recommendation score
+    const scoreBadge = cropElement.parentElement.querySelector(".badge");
+
+    if (scoreBadge && score !== undefined) {
+        scoreBadge.innerHTML =
+            `<i class="bi bi-check-circle-fill me-1"></i> ${Math.round(score * 100)}% Match`;
+    }
+
+    // Get market information for the recommended crop
+    try {
+        const response = await fetch(
+            `/api/market/${encodeURIComponent(crop)}`
+        );
+
+        if (!response.ok) {
+            throw new Error("Market data unavailable");
+        }
+
+        const data = await response.json();
+
+        if (marketLabel) {
+            marketLabel.textContent = `${crop} Market Rate`;
+        }
+
+        if (marketPrice) {
+            marketPrice.textContent =
+                `₹${Number(data.price).toLocaleString("en-IN")} / qtl`;
+        }
+
+        if (marketTrend) {
+            const direction = data.direction === "down"
+                ? "arrow-down-right"
+                : "arrow-up-right";
+
+            marketTrend.innerHTML =
+                `<i class="bi bi-${direction} me-1"></i> ${data.trend} this week`;
+        }
+
+    } catch (error) {
+        console.error("Dashboard market update failed:", error);
+
+        if (marketLabel) {
+            marketLabel.textContent = `${crop} Market Rate`;
+        }
+
+        if (marketPrice) {
+            marketPrice.textContent = "Market data unavailable";
+        }
+
+        if (marketTrend) {
+            marketTrend.textContent = "";
+        }
     }
 }
