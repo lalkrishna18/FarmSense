@@ -252,7 +252,11 @@ def market(crop):
         "crop": matched_crop,
         **data
     })
-
+@app.route("/api/officer/prices", methods=["GET"])
+def officer_prices():
+    return jsonify({
+        "prices": get_all_prices()
+    })
 
 @app.route("/api/officer/prices/<crop>", methods=["PUT"])
 def update_officer_price(crop):
